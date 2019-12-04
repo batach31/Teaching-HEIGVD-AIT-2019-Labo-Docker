@@ -1,7 +1,21 @@
-title: Lab 04 - Docker
+title: Lab 04 - Docker.  Baptiste_Doriane
 ---
 
-## Lab 04 - Docker
+
+  # Table of contents
+  
+1. [Introduction](#introduction)
+2. [Task 0: Identify issues and install the tools](#Task 0: Identify issues and install the tools)
+    1. [Sub paragraph](#subparagraph1)
+3. [Another paragraph](#paragraph2)
+
+  - A chapter named "Difficulties" where you describe the problems you have encountered and
+    the solutions you found
+
+  - A conclusion
+
+  
+
 
 
 #### Instructions for the lab report
@@ -57,16 +71,7 @@ should be quick if you already completed the lab on load balancing):
   - Seven chapters, one for each task (0 to 6)
 
   - A table of content
-  # Table of contents
-1. [Introduction](#introduction)
-2. [Some paragraph](#paragraph1)
-    1. [Sub paragraph](#subparagraph1)
-3. [Another paragraph](#paragraph2)
 
-  - A chapter named "Difficulties" where you describe the problems you have encountered and
-    the solutions you found
-
-  - A conclusion
 
 **DISCLAIMER**: In this lab, we will go through one possible approach
 to manage a scalable infrastructure where we can add and remove nodes
@@ -121,12 +126,17 @@ give in your report the reference of the question you are answering.
 1. <a name="M1"></a>**[M1]** Do you think we can use the current
    solution for a production environment? What are the main problems
    when deploying it in a production environment?
+   
+   La solution est statique, On ne peut pas ajouter ou diminuer le nombre de serveurs en foncion de la charge de travail. Si un serveur crash, on n'a pas de solution pour le remettre en route sans avoir à arrêter l'infrastructure globale. Ainsi, on peut se retrouver dans le cas ou un des deux serveurs devra prendre toute la charge de travail ce qui peut impliquer une longue attente de la part d'autres clients.
 
 2. <a name="M2"></a>**[M2]** Describe what you need to do to add new
    `webapp` container to the infrastructure. Give the exact steps of
    what you have to do without modifiying the way the things are
    done. Hint: You probably have to modify some configuration and
    script files in a Docker image.
+   
+   Dans le fichier /ha/scripts/run.sh, on ajoute la ligne ```sed -i
+   s/<s3>/$S3_PORT_3000_TCP_ADDR/g' /usr/local/etc/haproxy/haproxy.cfg```
 
 3. <a name="M3"></a>**[M3]** Based on your previous answers, you have
    detected some issues in the current solution. Now propose a better
