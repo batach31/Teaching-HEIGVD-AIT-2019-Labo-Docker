@@ -22,8 +22,10 @@ RUN curl -sSLo /tmp/s6.tar.gz https://github.com/just-containers/s6-overlay/rele
 
 # TODO: [S6] Replace the two following instructions
 # Copy all the scripts and make them executable
-COPY scripts/ /scripts/
-RUN chmod +x /scripts/*.sh
+# COPY scripts/ /scripts/
+# RUN chmod +x /scripts/*.sh
+# This will start S6 as our main process in our container
+ENTRYPOINT ["/init"]
 
 # TODO: [Serf] Add Serf S6 setup
 

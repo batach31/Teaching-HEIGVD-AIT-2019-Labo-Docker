@@ -19,8 +19,10 @@ RUN cd /backend/app && npm install && bower install --allow-root
 
 # TODO: [S6] Replace the two following instructions
 # Copy the starting script and make it executable
-COPY scripts /scripts/
-RUN chmod +x /scripts/*.sh
+# COPY scripts /scripts/
+# RUN chmod +x /scripts/*.sh
+# This will start S6 as our main process in our container
+ENTRYPOINT ["/init"]
 
 # TODO: [Serf] Add Serf S6 setup
 
