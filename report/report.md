@@ -137,6 +137,36 @@ give in your report the reference of the question you are answering.
    
    Dans le fichier /ha/scripts/run.sh, on ajoute la ligne ```sed -i
    s/<s3>/$S3_PORT_3000_TCP_ADDR/g' /usr/local/etc/haproxy/haproxy.cfg```
+   
+   Il faut aussi rajouter une image docker dans le docker-compose.yml:
+   ```
+   webapp3:
+       container_name: ${WEBAPP_3_NAME}
+       build:
+         context: ./webapp
+         dockerfile: Dockerfile
+       networks:
+         heig:
+           ipv4_address: ${WEBAPP_3_IP}
+       ports:
+         - "4002:3000"
+       environment:
+            - TAG=${WEBAPP_3_NAME}
+            - SERVER_IP=${WEBAPP_3_IP}
+   ```
+   En dessous de la définition de webapp2.
+   
+   Dans le fichier .env, il faut rajouter ces lignes:
+   ```
+	WEBAPP_3_NAME=s3
+	WEBAPP_3_IP=192.168.42.33
+   ```
+   Qui définissent l'addresse IP et le nom du serveur qui sera fetch par le Docker-compose.
+   
+   Enfin on doit ajouter ce noeud dans le haproxy (/ha/config/haproxy.cfg): 
+   ```
+   server s3 ${WEBAPP_3_IP}:3000 check
+   ```
 
 3. <a name="M3"></a>**[M3]** Based on your previous answers, you have
    detected some issues in the current solution. Now propose a better
