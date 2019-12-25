@@ -141,8 +141,8 @@ give in your report the reference of the question you are answering.
    Il faut aussi rajouter une image docker dans le docker-compose.yml:
    ```
    webapp3:
-       container_name: ${WEBAPP_3_NAME}
-       build:
+   		container_name: ${WEBAPP_3_NAME}
+   		build:
          context: ./webapp
          dockerfile: Dockerfile
        networks:
@@ -163,7 +163,7 @@ give in your report the reference of the question you are answering.
    ```
    Qui définissent l'addresse IP et le nom du serveur qui sera fetch par le Docker-compose.
    
-   Enfin on doit ajouter ce noeud dans le haproxy (/ha/config/haproxy.cfg): 
+   Enfin on doit ajouter ce noeud dans le HAProxy (/ha/config/haproxy.cfg): 
    ```
    server s3 ${WEBAPP_3_IP}:3000 check
    ```
@@ -171,11 +171,15 @@ give in your report the reference of the question you are answering.
 3. <a name="M3"></a>**[M3]** Based on your previous answers, you have
    detected some issues in the current solution. Now propose a better
    approach at a high level.
+   
+   On ne peut pas ajouter un nouveau serveur webapp dynamiquement. La solution serait d'avoir un gestionnaire de webapp dynamique pour HAProxy. On pourrait notifier le load balancer lorsqu'un nouveau serveur est créé et disponible pour être utilisé en tant que noeud. 
 
 4. <a name="M4"></a>**[M4]** You probably noticed that the list of web
     application nodes is hardcoded in the load balancer
     configuration. How can we manage the web app nodes in a more dynamic
     fashion?
+    
+    On peut utiliser l'outil Serf. Il s'agit d'un système d'orchestration de noeuds décentralisé. Il maintient une liste de web servers pour un load balancer et notifie ce dernier lorsqu'un noeud arrive en ligne ou se déconnecte.
 
 5. <a name="M5"></a>**[M5]** In the physical or virtual machines of a
    typical infrastructure we tend to have not only one main process
@@ -195,6 +199,8 @@ give in your report the reference of the question you are answering.
    process in a container? If no, what is missing / required to reach
    the goal? If yes, how to proceed to run for example a log
    forwarding process?
+   
+   Les scripts run.sh qui sont appelés quand on lance les containers Docker des webapp ne démarrent qu'un seul service, mais celui qui est appelé pour HAProxy lance aussi le processus rsyslog. On pourrait donc aussi lancer rsyslog sur les webapp également.
 
 6. <a name="M6"></a>**[M6]** In our current solution, although the
    load balancer configuration is changing dynamically, it doesn't
@@ -208,6 +214,9 @@ give in your report the reference of the question you are answering.
    What happens if we add more web server nodes? Do you think it is
    really dynamic? It's far away from being a dynamic
    configuration. Can you propose a solution to solve this?
+   
+   Pour ajouter un nouveau serveur, il faut ajouter une ligne sur ce script de config. Ce n'est donc pas totalement dynamique.
+   Comme solution on peut utiliser celle décrite précédemment en utilisant l'outil Serf.
 
 #### Install the tools
 
