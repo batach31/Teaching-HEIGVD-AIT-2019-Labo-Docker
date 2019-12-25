@@ -293,7 +293,7 @@ of the web app containers.
 1. Take a screenshot of the stats page of HAProxy at
    <http://192.168.42.42:1936>. You should see your backend nodes.
    
-   ![Architecture](images/t0.png)
+   ![](images/T0.png)
 
 2. Give the URL of your repository URL in the lab report.
  https://github.com/batach31/Teaching-HEIGVD-AIT-2019-Labo-Docker
@@ -550,12 +550,19 @@ content as in the previous task.
 1. Take a screenshot of the stats page of HAProxy at
    <http://192.168.42.42:1936>. You should see your backend nodes. It
    should be really similar to the screenshot of the previous task.
+   
+      ![](images/T1.png)
+
 
 2. Describe your difficulties for this task and your understanding of
    what is happening during this task. Explain in your own words why
    are we installing a process supervisor. Do not hesitate to do more
    research and to find more articles on that topic to illustrate the
    problem.
+   
+   Nous n'avons eu aucune difficulté en particulier, les instructions étaient bien détaillées.<br/>
+   Nous avons modifié les containers docker durant cette tâche afin d'y installer un superviseur de processus qui sera démarré à l'initialisation du container docker.<br/>
+   Le superviseur nous permet de faire tourner plusieurs processus en même temps sur un même container, ce qui est contraire à la philosophie de Docker selon laquelle un container = un processus. Le superviseur fonctionne alors comme les fichiers systemd/init.d qui vont superviser quels processus doivent tourner lors du boot d'un ordinateur.
 
 
 ### <a name="task-2"></a>Task 2: Add a tool to manage membership in the web server cluster
@@ -974,11 +981,19 @@ docker run -d --network heig --name s1 <imageName>
 
 2. Give the answer to the question about the existing problem with the
    current solution.
+   
+   On n'a pas une configuration dynamique. Le cluster n'exsite pas si le container HAProxy n'est pas démarré en premier ou s'il quitte le cluster, alors que le but de Serf est justement de décentraliser.<br/>
+   Puisque Self nous le permet, au lieu d'avoir un cluster dans lequel chaque nouveau noeud arrivant se réfère au premier noeud créé, nous pourrions faire en sorte que chaque nouveau noeud se réfère au dernier noeud ayant rejoint le cluster avant lui. Nous aurions donc un cluster décentralisé, se créant en cascade.
 
 3. Give an explanation on how `Serf` is working. Read the official
    website to get more details about the `GOSSIP` protocol used in
    `Serf`. Try to find other solutions that can be used to solve
    similar situations where we need some auto-discovery mechanism.
+   
+   Le protocole Gossip est un protocole d'échange de messages sur un cluster. Il fonctionne en broadcast de la même manière qu'une infection; le premier noeud envoie un message à un autre, puis ces deux noeuds en envoient un à un autre noeud etc, et ce de manière périodique.
+   
+   Comme alternative on pourrait utiliser l'outil Consul qui remplit les mêmes fonctionnalités que Serf mais d'une manière centralisée.
+   Zookeeper est un outil qui fonctionne aussi de manière centralisée mais demande une configuration plus poussée.
 
 
 ### <a name="task-3"></a>Task 3: React to membership changes
