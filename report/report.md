@@ -292,8 +292,11 @@ of the web app containers.
 
 1. Take a screenshot of the stats page of HAProxy at
    <http://192.168.42.42:1936>. You should see your backend nodes.
+   
+   ![Architecture](images/t0.png)
 
 2. Give the URL of your repository URL in the lab report.
+ https://github.com/batach31/Teaching-HEIGVD-AIT-2019-Labo-Docker
 
 
 ### <a name="task-1"></a>Task 1: Add a process supervisor to run several processes
