@@ -1366,18 +1366,25 @@ exit
 
   vs.
 
-  ```
-  RUN command 1 && command 2 && command 3
-  ```
+```
+RUN command 1 && command 2 && command 3
+```
+  
 
   There are also some articles about techniques to reduce the image
   size. Try to find them. They are talking about `squashing` or
   `flattening` images.
+  
+    Il est mieux d'utiliser la seconde option si l'on veut prendre peu de place. En effet, on ne crée qu'une seule couche dont les commandes sont dépendantes de la précédente, ce qui réduit la taille
+  de l'image créée. Dans le premier cas, on crée plusieurs couches, ce qui prends plus de place. Cependant, si l'on veut modifier une de ces couches, on peut le faire sans impacter les autres ce qui donne une recompilation plus rapide.
+ Sqash, avec l'option ```--squash```, permet de réduire la taille de l'image une fois construite, ce qui nous permet d'utiliser la première option sans les inconvéniants de taille.
 
 2. Propose a different approach to architecture our images to be able
    to reuse as much as possible what we have done. Your proposition
    should also try to avoid as much as possible repetitions between
    your images.
+   
+   
 
 3. Provide the `/tmp/haproxy.cfg` file generated in the `ha` container
    after each step.  Place the output into the `logs` folder like you
@@ -1388,9 +1395,12 @@ exit
    `docker ps` console and another file (per container) with
    `docker inspect <container>`. Four files are expected.
    
+   Elles se trouvent dans le dossier `/logs/task4`
+   
 4. Based on the three output files you have collected, what can you
    say about the way we generate it? What is the problem if any?
 
+Le problème est que les logs générés par l'apparition de s1 et de s2 écrasent les logs précédents, ce qui fait que nous n'avons pas une image globale de tous les logs générés jusqu'à présent.
 
 ### <a name="task-5"></a>Task 5: Generate a new load balancer configuration when membership changes
 
@@ -1767,6 +1777,8 @@ and reacts to nodes coming and going!
    sequence of experimentations like shutting down a node and starting
    more nodes.
    
+   Nous n'avons pas réussi à faire run haproxy et donc aller sur 192.168.42.42 pour cette partie, nous avons néanmoins mis les logs pour docker ps.
+   
    Also provide the output of `docker ps` in a log file. At least 
    one file is expected. You can provide one output per step of your
    experimentation according to your screenshots.
@@ -1774,6 +1786,9 @@ and reacts to nodes coming and going!
 2. Give your own feelings about the final solution. Propose
    improvements or ways to do the things differently. If any, provide
    references to your readings for the improvements.
+   
+   La solution finale nous parait correcte, théoriquement (nous n'avons pas pu tester) l'ajout/la suppression de serveurs se fait dynamiquement ce qui est souhaitable.
+   Une amélioration pourrait être d'avoir plusieurs load balancer haproxy afin d'avoir du soutien en cas de crash d'un de ces derniers.
 
 3. (Optional:) Present a live demo where you add and remove a backend container.
 
