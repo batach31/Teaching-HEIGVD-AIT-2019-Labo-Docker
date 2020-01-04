@@ -120,7 +120,7 @@ title: Lab 04 - Docker.  Baptiste_Doriane
 1. Take a screenshot of the stats page of HAProxy at
    <http://192.168.42.42:1936>. You should see your backend nodes.
    
-   ![](images/T0.png?raw=true)
+   ![images/T0.png](images/T0.png?raw=true)
 
 2. Give the URL of your repository URL in the lab report.
  https://github.com/batach31/Teaching-HEIGVD-AIT-2019-Labo-Docker
@@ -134,7 +134,7 @@ title: Lab 04 - Docker.  Baptiste_Doriane
    <http://192.168.42.42:1936>. You should see your backend nodes. It
    should be really similar to the screenshot of the previous task.
    
-      ![](images/T1.png?raw=true)
+      ![images/T1.png](images/T1.png?raw=true)
 
 
 2. Describe your difficulties for this task and your understanding of
